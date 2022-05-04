@@ -5,17 +5,18 @@ import "./App.css";
 function App() {
   const [val, setVal] = React.useState("");
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos/1")
-      .then((response) => response.json())
-      .then((json) => {
-        setVal(JSON.stringify(json, null, 2));
-      });
+    // chrome.storage.sync.set({ message: "hey whatup" });
+    // fetch("https://jsonplaceholder.typicode.com/todos/1")
+    //   .then((response) => response.json())
+    //   .then((json) => {
+    //     setVal(JSON.stringify(json, null, 2));
+    //   });
   }, []);
 
   return (
     <div className="App">
       <header className="App-header">
-        <p className="text-lg font-bold text-gray-200">{val}</p>
+        <p className="text-lg font-bold text-gray-200">{val || "loading..."}</p>
       </header>
     </div>
   );
