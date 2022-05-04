@@ -1,51 +1,58 @@
-import React, { useEffect } from "react";
+import React, { PropsWithChildren } from "react";
 import { StoreWrapper } from "./store/store";
-import { useRootSelector } from "./hooks/useRootSelector";
+import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
+import { Home } from "./routes/Home";
+import { SubPage } from "./routes/SubPage";
 import { useDispatch } from "react-redux";
-import { fooSlice } from "./store/foo.slice";
+import { routingSlice } from "./store/routing.slice";
+import { useRootSelector } from "./hooks/useRootSelector";
 
 export const App = () => {
   return (
     <StoreWrapper>
-      <AppBody />
+      <Router>
+        <AppBody />
+      </Router>
     </StoreWrapper>
   );
 };
 
-const AppBody = () => {
-  const name = useRootSelector((state) => state.foo.name);
-  const dispatch = useDispatch();
+const Router = ({ children }: PropsWithChildren<{}>) => {
+  const activePath = useRootSelector((state) => state.routing.activePath);
+  return <MemoryRouter initialEntries={[activePath]}>{children}</MemoryRouter>;
+};
 
-  const [val, setVal] = React.useState("");
-  useEffect(() => {
-    // chrome.storage.sync.set({ message: "hey whatup" });
-    // fetch("https://jsonplaceholder.typicode.com/todos/1")
-    //   .then((response) => response.json())
-    //   .then((json) => {
-    //     setVal(JSON.stringify(json, null, 2));
-    //   });
-  }, []);
+const AppBody = () => {
+  // const name = useRootSelector((state) => state.foo.name);
+  // const dispatch = useDispatch();
+  //
+  // const [val, setVal] = React.useState("");
+  // useEffect(() => {
+  //   // chrome.storage.sync.set({ message: "hey whatup" });
+  //   // fetch("https://jsonplaceholder.typicode.com/todos/1")
+  //   //   .then((response) => response.json())
+  //   //   .then((json) => {
+  //   //     setVal(JSON.stringify(json, null, 2));
+  //   //   });
+  // }, []);
+
+  useTrackActivePath();
 
   return (
     <div className="p-3 bg-gray-100">
-      <header className="App-header">
-        <p className="text-lg font-bold text-gray-800">
-          {name || "loading..."}
-        </p>
-        <input
-          type="text"
-          value={val}
-          onChange={(e) => setVal(e.currentTarget.value)}
-        />
-        <button
-          type="button"
-          onClick={() => {
-            dispatch(fooSlice.actions.changeName(val));
-          }}
-        >
-          SAVE
-        </button>
-      </header>
+      <Routes>
+        <Route path="/subpage" element={<SubPage />} />
+        <Route path="/" element={<Home />} />
+      </Routes>
     </div>
   );
+};
+
+const useTrackActivePath = () => {
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(routingSlice.actions.setActivePath(location.pathname));
+  }, [dispatch, location.pathname]);
 };
