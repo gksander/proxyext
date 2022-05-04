@@ -1,4 +1,6 @@
 /// <reference lib="webworker" />
+import { isMessageDataRulesPayload } from "./utils/sendRulesToSW";
+
 export default null;
 declare let self: ServiceWorkerGlobalScope;
 
@@ -29,3 +31,12 @@ declare let self: ServiceWorkerGlobalScope;
 //     event.respondWith(fetch(event.request));
 //   }
 // });
+
+// Add listener for message
+self.addEventListener("message", ({ data }) => {
+  console.log(data);
+
+  if (isMessageDataRulesPayload(data)) {
+    console.log("GOT RULES!", data.rules);
+  }
+});
