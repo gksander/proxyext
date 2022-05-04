@@ -1,8 +1,21 @@
 import React, { useEffect } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { StoreWrapper } from "./store/store";
+import { useRootSelector } from "./hooks/useRootSelector";
+import { useDispatch } from "react-redux";
+import { fooSlice } from "./store/foo.slice";
 
-function App() {
+export const App = () => {
+  return (
+    <StoreWrapper>
+      <AppBody />
+    </StoreWrapper>
+  );
+};
+
+const AppBody = () => {
+  const name = useRootSelector((state) => state.foo.name);
+  const dispatch = useDispatch();
+
   const [val, setVal] = React.useState("");
   useEffect(() => {
     // chrome.storage.sync.set({ message: "hey whatup" });
@@ -14,12 +27,25 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="p-3 bg-gray-100">
       <header className="App-header">
-        <p className="text-lg font-bold text-gray-200">{val || "loading..."}</p>
+        <p className="text-lg font-bold text-gray-800">
+          {name || "loading..."}
+        </p>
+        <input
+          type="text"
+          value={val}
+          onChange={(e) => setVal(e.currentTarget.value)}
+        />
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(fooSlice.actions.changeName(val));
+          }}
+        >
+          SAVE
+        </button>
       </header>
     </div>
   );
-}
-
-export default App;
+};
