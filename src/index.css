@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-	--ext-width: 450px;
-	--ext-height: 450px;
+	--ext-width: 360px;
+	--ext-height: 500px;
 }
 
 /* This sets the size of the Chrome extension */
-html,body {
+html,body,#root {
 	width: var(--ext-width);
 	height: var(--ext-height);
 }

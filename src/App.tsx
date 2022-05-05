@@ -1,11 +1,13 @@
 import React, { PropsWithChildren } from "react";
 import { StoreWrapper } from "./store/store";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
-import { Home } from "./routes/Home";
+import { HomePage } from "./routes/Home/Home.page";
 import { SubPage } from "./routes/SubPage";
 import { useDispatch } from "react-redux";
 import { routingSlice } from "./store/routing.slice";
 import { useRootSelector } from "./hooks/useRootSelector";
+import { Paths } from "./config/paths";
+import { RequestsPage } from "./routes/Requests.page";
 
 export const App = () => {
   return (
@@ -26,12 +28,10 @@ const AppBody = () => {
   useTrackActivePath();
 
   return (
-    <div className="p-3 bg-gray-100">
-      <Routes>
-        <Route path="/subpage" element={<SubPage />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path={Paths.REQUESTS} element={<RequestsPage />} />
+      <Route path={Paths.HOME} element={<HomePage />} />
+    </Routes>
   );
 };
 
