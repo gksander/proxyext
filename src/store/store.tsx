@@ -12,12 +12,13 @@ import {
 import { PropsWithChildren } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { fooSlice } from "./foo.slice";
 import { chromePersistStorage } from "./chromePersistStorage";
 import { routingSlice } from "./routing.slice";
+import { requestsSlice } from "./requests.slice";
 
 const rootReducer = combineReducers({
   [routingSlice.name]: routingSlice.reducer,
+  [requestsSlice.name]: requestsSlice.reducer,
 });
 
 const persistedReducer = persistReducer(

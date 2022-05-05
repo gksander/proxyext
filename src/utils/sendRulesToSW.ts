@@ -1,15 +1,17 @@
+import { Rule } from "../types/rules";
+
 type RulesMessage = {
   type: "rules";
-  rules: string[];
+  rules: Rule[];
 };
 
-export const sendRulesToSW = (rules: string[]) => {
+export const sendRulesToSW = (rules: Rule[]) => {
   const payload: RulesMessage = {
     type: "rules",
     rules,
   };
 
-  navigator.serviceWorker?.controller?.postMessage?.(payload);
+  chrome.runtime.sendMessage(payload).catch(() => {});
 };
 
 export const isMessageDataRulesPayload = (data: any): data is RulesMessage => {

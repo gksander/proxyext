@@ -23,19 +23,6 @@ const Router = ({ children }: PropsWithChildren<{}>) => {
 };
 
 const AppBody = () => {
-  // const name = useRootSelector((state) => state.foo.name);
-  // const dispatch = useDispatch();
-  //
-  // const [val, setVal] = React.useState("");
-  // useEffect(() => {
-  //   // chrome.storage.sync.set({ message: "hey whatup" });
-  //   // fetch("https://jsonplaceholder.typicode.com/todos/1")
-  //   //   .then((response) => response.json())
-  //   //   .then((json) => {
-  //   //     setVal(JSON.stringify(json, null, 2));
-  //   //   });
-  // }, []);
-
   useTrackActivePath();
 
   return (
@@ -48,6 +35,9 @@ const AppBody = () => {
   );
 };
 
+/**
+ * Tracking active path in Redux
+ */
 const useTrackActivePath = () => {
   const location = useLocation();
   const dispatch = useDispatch();
